@@ -6,9 +6,7 @@ from django.utils.html import format_html
 
 
 class TableSort:
-    """
-    Class to generate the table with the sort.
-    """
+    """Class to generate the table with the sort."""
 
     def __init__(
         self,
@@ -25,12 +23,11 @@ class TableSort:
         self.column_names = column_names
 
     def __str__(self):
+        """Returns the table in HTML format."""
         return self.render()
 
     def render(self) -> str:
-        """
-        Generate the table with the sort.
-        """
+        """Generate the table with the sort."""
 
         return format_html(
             """
@@ -50,9 +47,7 @@ class TableSort:
         )
 
     def get_table_body(self) -> str:
-        """
-        Generate the body of the table.
-        """
+        """Generate the body of the table."""
         body_str: str = ""
         for obj in self.object_list:
             row_str: str = ""
@@ -62,9 +57,7 @@ class TableSort:
         return format_html(body_str)
 
     def get_table_headers(self) -> str:
-        """
-        Generate the column with the link to sort.
-        """
+        """Generate the column with the link to sort."""
         headers_str: str = ""
         for field_to_sort, column_name in self.column_names.items():
             url_start = self.request.GET.urlencode()
@@ -112,7 +105,7 @@ class TableSort:
                             <a href="?{url_start}" class="{hide_cancel}" role="button" title="Remove sort"><i class="fa-solid fa-ban"></i></a>
                         </div>
                     </div>
-                </th>""".format(
+                </th>""".format(  # noqa: F522
                 url_start=url_start,
                 sort_direction="" if first_sort else "-up" if not order_up else "-down",
                 field_to_sort=field_to_sort,
