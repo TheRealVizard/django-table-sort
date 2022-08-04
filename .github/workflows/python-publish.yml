@@ -32,7 +32,7 @@ jobs:
         pip install poetry
     - name: Publish
       env:
-        PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+        PYPI_USERNAME: ${{ secrets.PYPI_USER }}
       run: |
-        poetry config pypi-token.pypi $PYPI_TOKEN
-        poetry publish --build
+        poetry publish --build --username $PYPI_USERNAME --password $PYPI_TOKEN
