@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "django-table-sort"
+version = "0.1.0"
+description = ""
+authors = ["TheRealVizard <vizard@divineslns.com>"]
+readme = "README.md"
+packages = [{include = "django_table_sort"}]
+
+[tool.poetry.dependencies]
+python = ">=3.7"
+Django = ">=3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

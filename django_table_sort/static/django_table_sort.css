@@ -1,0 +1,22 @@
+.fa-sort-up:hover::before {
+    content: "\f0dc";
+}
+.fa-sort-down:hover::before {
+    content: "\f0dc";
+}
+.show {
+    display: block !important;
+}
+.hidden {
+    display: none;
+}
+.sort-options {
+    display: none;
+    float: right;
+}
+.sort-options i {
+    color: #212529;
+}
+.column-sorted:hover .sort-options {
+    display: block;
+}
