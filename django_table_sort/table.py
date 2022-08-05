@@ -12,15 +12,19 @@ class TableSort:
         self,
         request: HttpRequest,
         object_list: Union[QuerySet, list],
-        sort_key_name: str = "o",
-        clases: str = "text-center",
         column_names: Union[None, dict[str, str]] = None,
+        sort_key_name: str = "o",
+        column_css_clases: str = "text-center",
+        table_css_clases: str = "table",
+        table_id: Union[str, None] = None,
     ):
         self.request = request
         self.object_list = object_list
         self.sort_key_name = sort_key_name
-        self.clases = clases
+        self.column_css_clases = column_css_clases
         self.column_names = column_names
+        self.table_css_clases = table_css_clases
+        self.table_id = table_id
 
     def __str__(self):
         """Returns the table in HTML format."""
@@ -31,7 +35,7 @@ class TableSort:
 
         return format_html(
             """
-            <table>
+            <table{table_id}{table_clases}>
                 <thead>
                     <tr>
                         {headers}
@@ -44,6 +48,10 @@ class TableSort:
             """,
             body=self.get_table_body(),
             headers=self.get_table_headers(),
+            table_clases=f' class="{self.table_css_clases}"'
+            if self.table_css_clases is not None
+            else "",
+            table_id=f' id="{self.table_id}"' if self.table_id is not None else "",
         )
 
     def get_table_body(self) -> str:
@@ -111,7 +119,7 @@ class TableSort:
                 field_to_sort=field_to_sort,
                 column_name=column_name,
                 ordering_text=f"Sort by {column_name}" if first_sort else "Toggle sort",
-                classes=self.clases,
+                classes=self.column_css_clases,
                 hide_cancel="hidden" if first_sort else "",
                 show_sort="show" if not first_sort else "",
                 sort_url=sort_url,
