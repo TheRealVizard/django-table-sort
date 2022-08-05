@@ -41,14 +41,16 @@ INSTALLED_APPS = [
 In your _view.py_ file:
 
 ```python
-    table = TableSort(
-        request,
-        Person.objects.all(),
-        sort_key_name="o",
-        clases="text-center",
-        column_names={"name": "Firs Name", "age": "Age in years"},
-    )
-    return render(request, "base.html", {"table": table})
+table = TableSort(
+    request,
+    Person.objects.all(),
+    column_names = {"name": "Firs Name", "age": "Age in years"},
+    sort_key_name = "o",
+    column_css_clases = "text-center",
+    table_css_clases = "table,
+    table_id = "id_table"
+)
+return render(request, "base.html", {"table": table})
 ```
 
 In your _template.html_ file:
@@ -69,4 +71,3 @@ You can filter by each field you declare as a column.
 <p align="center">
     <img width="361" height="45" src=".\url_result.png">
 </p>
-
