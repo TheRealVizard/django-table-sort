@@ -23,6 +23,9 @@ jobs:
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v3
               with:
+                  token: ${{ secrets.CODECOV_TOKEN }}
                   fail_ci_if_error: true
+                  files: ./coverage.xml
+                  flags: unittests
                   path_to_write_report: ./coverage/codecov_report.txt
                   verbose: true
