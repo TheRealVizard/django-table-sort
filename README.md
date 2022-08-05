@@ -44,11 +44,11 @@ In your _view.py_ file:
 table = TableSort(
     request,
     Person.objects.all(),
-    column_names = {"name": "Firs Name", "age": "Age in years"},
-    sort_key_name = "o",
-    column_css_clases = "text-center",
-    table_css_clases = "table,
-    table_id = "id_table"
+    column_names={"name": "Firs Name", "age": "Age in years"},
+    sort_key_name="o",
+    column_css_clases="text-center",
+    table_css_clases="table",
+    table_id="id_table",
 )
 return render(request, "base.html", {"table": table})
 ```
