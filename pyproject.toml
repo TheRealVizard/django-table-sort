@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "django-table-sort"
 version = "0.2.1"
-description = "Create tables with sorting on the headers in Django templates."
+description = "Create tables with sorting links on the headers in Django templates."
 authors = ["TheRealVizard <vizard@divineslns.com>"]
 readme = "README.md"
 packages = [{include = "django_table_sort"}]

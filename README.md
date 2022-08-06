@@ -2,7 +2,7 @@
 
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/TheRealVizard/django-table-sort/main.svg)](https://results.pre-commit.ci/latest/github/TheRealVizard/django-table-sort/main) [![codecov](https://codecov.io/gh/TheRealVizard/django-table-sort/branch/main/graph/badge.svg?token=KGXHPZ6HOB)](https://codecov.io/gh/TheRealVizard/django-table-sort) ![django-table-sort](https://img.shields.io/pypi/v/django-table-sort?color=blue) ![python-versions](https://img.shields.io/pypi/pyversions/django-table-sort) ![django-versions](https://img.shields.io/pypi/frameworkversions/django/django-table-sort?label=django) ![license](https://img.shields.io/pypi/l/django-table-sort?color=blue) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) ![downloads](https://img.shields.io/pypi/dm/django-table-sort)
 
-Create tables with sorting on the headers in Django templates.
+Create tables with sorting links on the headers in Django templates.
 
 This is currently [WIP](https://en.wikipedia.org/wiki/Work_in_process), so many other features will come in future releases.
 ## Installation
