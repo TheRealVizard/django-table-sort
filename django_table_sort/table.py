@@ -26,6 +26,7 @@ class TableSort:
         self.column_names = column_names
         self.table_css_clases = table_css_clases
         self.table_id = table_id
+        self.kwargs = kwargs
         if column_names is None and isinstance(object_list, QuerySet):
             self.column_names = {
                 field.name: field.verbose_name.title()
@@ -68,6 +69,9 @@ class TableSort:
             row_str: str = ""
             for column_name in self.column_names.keys():
                 row_str += f"<td>{getattr(obj,column_name)}</td>"
+            if "added_columns" in self.kwargs:
+                for _, callable in self.kwargs["added_columns"]:
+                    row_str += f"<td>{callable(obj)}</td>"
             body_str += f"<tr>{row_str}</tr>"
         return format_html(body_str)
 
@@ -131,4 +135,7 @@ class TableSort:
                 show_sort="show" if not first_sort else "",
                 sort_url=sort_url,
             )
+        if "added_columns" in self.kwargs:
+            for column_header, _ in self.kwargs["added_columns"]:
+                headers_str += f"<th>{column_header}</th>"
         return format_html(headers_str)
