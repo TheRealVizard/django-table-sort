@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from django.db import models
+
 from django_table_sort.table import TableSort
 
 
