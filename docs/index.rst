@@ -6,6 +6,10 @@ django-table-sort
    :target: https://results.pre-commit.ci/latest/github/TheRealVizard/django-table-sort/main
    :alt: pre-commit.ci status
 
+.. image:: https://readthedocs.org/projects/django-table-sort/badge/?version=latest
+   :target: https://django-table-sort.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
 .. image:: https://codecov.io/gh/TheRealVizard/django-table-sort/branch/main/graph/badge.svg?token=KGXHPZ6HOB
    :target: https://codecov.io/gh/TheRealVizard/django-table-sort
    :alt: codecov
