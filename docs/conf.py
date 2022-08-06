@@ -4,7 +4,7 @@ project = "django-table-sort"
 author = "Eduardo Leyva"
 copyright = f"{datetime.now().year}, {author}"
 
-version = "0.2.1"
+version = "0.2.7"
 
 
 extensions = [
