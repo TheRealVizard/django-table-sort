@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from django.db import models
+
 from django_table_sort.table import TableSort
 
 
@@ -26,6 +27,6 @@ class Test(TestCase):
         table_columns = [
             (column.column_field, column.column_header) for column in table.column_names
         ]
-        self.assertEqual(len(table_columns),2)
+        self.assertEqual(len(table_columns), 2)
         self.assertIn(("name", "Full Name"), table_columns)
         self.assertIn(("age", "Age In Years"), table_columns)
