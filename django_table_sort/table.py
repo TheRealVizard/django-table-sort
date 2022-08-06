@@ -17,6 +17,7 @@ class TableSort:
         column_css_clases: str = "text-center",
         table_css_clases: str = "table",
         table_id: Union[str, None] = None,
+        **kwargs,
     ):
         self.request = request
         self.object_list = object_list
@@ -25,6 +26,12 @@ class TableSort:
         self.column_names = column_names
         self.table_css_clases = table_css_clases
         self.table_id = table_id
+        if column_names is None and isinstance(object_list, QuerySet):
+            self.column_names = {
+                field.name: field.verbose_name.title()
+                for field in object_list.model._meta.fields
+                if not field.primary_key or kwargs.get("show_primary_key", False)
+            }
 
     def __str__(self):
         """Returns the table in HTML format."""
