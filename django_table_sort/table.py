@@ -19,7 +19,7 @@ class TableSort:
         sort_key_name: str = "o",
         column_css_clases: str = "text-center",
         table_css_clases: str = "table",
-        table_id: Union[str, None] = None,
+        table_id: str = None,
         **kwargs,
     ):
         self.request = request
