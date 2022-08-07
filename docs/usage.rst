@@ -11,6 +11,7 @@ For example purposes, we'll use a simplified book app. Here is our models.
 
     # app/models.py
 
+
     class Person(models.Model):
         name = models.CharField(max_length=100, verbose_name="First Name")
         age = models.IntegerField(verbose_name="Age in Years")
