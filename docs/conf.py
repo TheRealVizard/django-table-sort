@@ -18,7 +18,7 @@ project = "django-table-sort"
 author = "Eduardo Leyva"
 copyright = f"{datetime.now().year}, {author}"
 
-version = "0.2.7"
+version = "0.3.1"
 
 
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.intersphinx"]
