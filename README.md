@@ -73,10 +73,10 @@ Result:
 The table is render with 2 link, one to Toggle the sort direction and another to remove the sort.
 
 <p align="center">
-    <img width="375" height="149" src=".\result.png">
+    <img width="375" height="149" src="https://github.com/TheRealVizard/django-table-sort/raw/main/result.png">
 </p>
 
 You can filter by each field you declare as a column.
 <p align="center">
-    <img width="375" height="45" src=".\url_result.png">
+    <img width="375" height="45" src="https://github.com/TheRealVizard/django-table-sort/raw/main/url_result.png">
 </p>
