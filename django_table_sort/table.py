@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Union
-
 from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.html import format_html
