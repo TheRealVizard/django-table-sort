@@ -41,16 +41,22 @@ INSTALLED_APPS = [
 In your _view.py_ file:
 
 ```python
-table = TableSort(
-    request,
-    Person.objects.all(),
-    column_names={"name": "Firs Name", "age": "Age in years"},
-    sort_key_name="o",
-    column_css_clases="text-center",
-    table_css_clases="table",
-    table_id="id_table",
-)
-return render(request, "base.html", {"table": table})
+class ListViewExample(ListView):
+    model = Person
+    template_name: str = "base.html"
+    ordering_key = "o"
+
+    def get_ordering(self) -> tuple:
+        return self.request.GET.getlist(self.ordering_key, None) # To make Django use the order
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["table"] = TableSort(
+            self.request,
+            self.object_list,
+            sort_key_name=self.ordering_key,
+        )
+        return context
 ```
 
 In your _template.html_ file:
@@ -64,10 +70,10 @@ Result:
 The table is render with 2 link, one to Toggle the sort direction and another to remove the sort.
 
 <p align="center">
-    <img width="268" height="120" src=".\result.png">
+    <img width="375" height="149" src=".\result.png">
 </p>
 
 You can filter by each field you declare as a column.
 <p align="center">
-    <img width="361" height="45" src=".\url_result.png">
+    <img width="375" height="45" src=".\url_result.png">
 </p>
