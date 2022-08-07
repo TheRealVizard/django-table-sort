@@ -22,4 +22,4 @@ intersphinx_mapping = {
 
 intersphinx_disabled_domains = ["std"]
 
-html_theme = "default"
+html_theme = "sphinx_rtd_theme"

@@ -36,5 +36,14 @@ django-table-sort
 Create tables with sorting links on the headers in Django templates.
 
 .. toctree::
+   :maxdepth: 2
+   :caption: User Guide
 
    installation
+   usage
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API documentation
+
+   tablesort
