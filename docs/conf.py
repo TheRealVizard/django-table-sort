@@ -11,6 +11,8 @@ os.environ["DJANGO_SETTINGS_MODULE"] = "tests.settings"
 
 django.setup()
 
+from __future__ import annotations
+
 project = "django-table-sort"
 author = "Eduardo Leyva"
 copyright = f"{datetime.now().year}, {author}"

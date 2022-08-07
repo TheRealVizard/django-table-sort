@@ -6,7 +6,8 @@ from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.html import format_html
 
-from django_table_sort.columns import TableColumn, TableExtraColumn
+from django_table_sort.columns import TableColumn
+from django_table_sort.columns import TableExtraColumn
 
 
 class TableSort:
@@ -15,8 +16,8 @@ class TableSort:
     def __init__(
         self,
         request: HttpRequest,
-        object_list: Union[QuerySet, list],
-        column_names: Union[None, dict[str, str]] = None,
+        object_list: QuerySet | list,
+        column_names: None | dict[str, str] = None,
         sort_key_name: str = "o",
         column_css_clases: str = "text-center",
         table_css_clases: str = "table",
