@@ -2,7 +2,14 @@ import os
 import sys
 from datetime import datetime
 
+import django
+
 sys.path.insert(0, os.path.abspath(".."))
+
+os.environ["DJANGO_SETTINGS_MODULE"] = "tests.settings"
+
+
+django.setup()
 
 project = "django-table-sort"
 author = "Eduardo Leyva"

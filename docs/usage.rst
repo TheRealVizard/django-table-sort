@@ -20,7 +20,7 @@ For example purposes, we'll use a simplified book app. Here is our models.
             return self.name
 
 Creating django-table-sort Table
-===============================
+================================
 
 .. code-block:: python
 
