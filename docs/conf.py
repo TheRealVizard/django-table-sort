@@ -2,8 +2,7 @@ import os
 import sys
 from datetime import datetime
 
-sys.path.append(os.path.abspath("."))
-sys.path.append(os.path.abspath(".."))
+sys.path.insert(0, os.path.abspath(".."))
 
 project = "django-table-sort"
 author = "Eduardo Leyva"
@@ -18,6 +17,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
+    "sphinx.ext.napoleon,",
 ]
 
 intersphinx_mapping = {
