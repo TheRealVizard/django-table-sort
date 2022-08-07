@@ -1,3 +1,4 @@
+===============
 Getting started
 ===============
 
@@ -8,6 +9,7 @@ For example purposes, we'll use a simplified book app. Here is our
 .. code-block:: python
 
     # app/models.py
+
 
     class Person(models.Model):
         name = models.CharField(max_length=100, verbose_name="First Name")
@@ -26,9 +28,7 @@ Creating django-table-sort Table
 
     from app.models import Person
 
+
     def view(request):
-        table = TableSort(
-            request
-            Person.objects.all()
-        )
+        table = TableSort(request, Person.objects.all())
         return render(request, "template.html", context={"table": table})
