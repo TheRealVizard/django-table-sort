@@ -9,18 +9,23 @@ from django_table_sort.columns import TableExtraColumn
 
 
 class TableSort:
-    """
+    r"""
     Class to generate the table with the sort.
 
-    :param request: current HttpRequest to get the Url lookups to create the links.
-    :param object_list: QuerySet or list to fill the table.
-    :param column_names: dict containing the pair {field_name: field_header}, this is used to set which field will be displayed and the proper headers. If no column_names are set and the object_list is a Queryset, the all the fields in the Queryset's model will be used, and as the header their verbose_name.
-    :param sort_key_name: String name that will be used to create the sort lookup in the urls.
+    :param request: current ``HttpRequest`` to get the url lookups to create the links.
+    :param object_list: ``QuerySet`` or ``list`` to fill the table.
+    :param column_names: ``dict`` containing the pair {field_name: field_header}, this is used to set which field will be displayed and the proper headers. If no column_names are set and the object_list is a ``Queryset``, the all the fields in the Queryset's model will be used, and as the header their verbose_name.
+    :param sort_key_name: ``str`` for the key name that will be used to create the sort lookup in the urls.
     :param table_css_clases: class to be applied to the table.
-    :param table_id: id for the generated tabled.
-    :params kwargs: : dict, optional
-        show_primary_key: set if the primary key of the model should be displayed, default=False.
-        added_columns: Extra columns to show in the table, should be a dict object having the pair {(field_identifier,field_header):callable_function}. Note that field_identifier is to mark a difference to the models fields and callable_function needs to be a function that will receive an object and return an str to print in the table column.
+    :param table_id: ``str`` for the id of the generated tabled.
+    :param **kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *show_primary_key* (``bool``) --
+          Set if the primary key of the model should be displayed, default=``False``.
+        * *added_columns* (``dict``) --
+          Extra columns to show in the table, should be a ``dict`` object having the pair {(field_identifier,field_header):callable_function}. Note that field_identifier is to mark a difference to the models fields and callable_function needs to be a function that will receive an object and return an str to print in the table column
     """
 
     def __init__(
