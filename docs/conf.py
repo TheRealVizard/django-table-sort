@@ -1,4 +1,9 @@
+import os
+import sys
 from datetime import datetime
+
+sys.path.append(os.path.abspath("."))
+sys.path.append(os.path.abspath(".."))
 
 project = "django-table-sort"
 author = "Eduardo Leyva"
