@@ -10,6 +10,12 @@ You can install *django-table-sort* via pip_ from PyPI_:
 
    $ pip install django-table-sort
 
+Requirements
+------------
+
+* Python 3.7+
+* Django 3.0+
+
 2. Add *django-table-sort* to your ``INSTALLED_APPS``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -30,12 +36,6 @@ You can install *django-table-sort* via pip_ from PyPI_:
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    <! -- css to use the header sort icons -->
    <link rel="stylesheet" href="{% static 'django_table_sort.css' %}"/>
-
-Requirements
-------------
-
-* Python 3.7+
-* Django 3.0+
 
 
 .. _PyPI: https://pypi.org/
