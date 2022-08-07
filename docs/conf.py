@@ -11,14 +11,7 @@ copyright = f"{datetime.now().year}, {author}"
 version = "0.2.7"
 
 
-extensions = [
-    "sphinx.ext.duration",
-    "sphinx.ext.doctest",
-    "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.napoleon,",
-]
+extensions = ["sphinx.ext.autodoc", "sphinx.ext.intersphinx"]
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
