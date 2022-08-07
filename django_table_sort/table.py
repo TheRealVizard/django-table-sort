@@ -1,11 +1,12 @@
+from __future__ import annotations
+
 from typing import Union
 
 from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.html import format_html
 
-from django_table_sort.columns import TableColumn
-from django_table_sort.columns import TableExtraColumn
+from django_table_sort.columns import TableColumn, TableExtraColumn
 
 
 class TableSort:
