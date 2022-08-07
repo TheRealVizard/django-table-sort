@@ -33,3 +33,5 @@ Creating django-table-sort Table
     def view(request):
         table = TableSort(request, Person.objects.all())
         return render(request, "template.html", context={"table": table})
+
+To see the different option you can provide please see the section :ref:`table_sort_class`.
