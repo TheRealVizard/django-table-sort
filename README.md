@@ -10,7 +10,7 @@ This is currently [WIP](https://en.wikipedia.org/wiki/Work_in_process), so many 
 **First**, install with pip:
 
 ```bash
-pip install django-sort-table
+pip install django-table-sort
 ```
 
 **Second**, add the app to your INSTALLED_APPS setting:
@@ -18,7 +18,7 @@ pip install django-sort-table
 ```python
 INSTALLED_APPS = [
     ...,
-    "django-sort-table",
+    "django_table_sort",
     ...,
 ]
 ```
@@ -47,7 +47,9 @@ class ListViewExample(ListView):
     ordering_key = "o"
 
     def get_ordering(self) -> tuple:
-        return self.request.GET.getlist(self.ordering_key, None) # To make Django use the order
+        return self.request.GET.getlist(
+            self.ordering_key, None
+        )  # To make Django use the order
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,6 +57,7 @@ class ListViewExample(ListView):
             self.request,
             self.object_list,
             sort_key_name=self.ordering_key,
+            table_css_clases="table table-light table-striped table-sm",
         )
         return context
 ```
