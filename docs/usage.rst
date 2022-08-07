@@ -5,11 +5,11 @@ Getting started
 The test models
 ===============
 
-For example purposes, we'll use a simplified book app. Here is our
+For example purposes, we'll use a simplified book app. Here is our models.
+
 .. code-block:: python
 
     # app/models.py
-
 
     class Person(models.Model):
         name = models.CharField(max_length=100, verbose_name="First Name")
