@@ -7,6 +7,8 @@ from django.utils.html import format_html
 from django_table_sort.columns import TableColumn
 from django_table_sort.columns import TableExtraColumn
 
+ALL_FIELDS = ["__all__"]
+
 
 class TableSort:
     r"""
@@ -32,6 +34,8 @@ class TableSort:
         self,
         request: HttpRequest,
         object_list: QuerySet | list,
+        fields: list = ALL_FIELDS,
+        exclude: list = None,
         column_names: None | dict[str, str] = None,
         sort_key_name: str = "o",
         table_css_clases: str = "table",
@@ -44,10 +48,34 @@ class TableSort:
         self.table_css_clases = table_css_clases
         self.table_id = table_id
         self.kwargs = kwargs
-        if column_names is None and isinstance(object_list, QuerySet):
+        column_names = column_names or {}
+        if exclude is not None and isinstance(object_list, QuerySet):
+            fields = [
+                field
+                for field in object_list.model._meta.get_fields()
+                if field.name not in exclude
+            ]
             self.column_names = [
-                TableColumn(field.name, field.verbose_name.title())
-                for field in object_list.model._meta.fields
+                TableColumn(
+                    field.name, column_names.get(field.name, field.verbose_name.title())
+                )
+                for field in fields
+                if not field.primary_key or kwargs.get("show_primary_key", False)
+            ]
+        elif fields is not None and isinstance(object_list, QuerySet):
+            if fields == ALL_FIELDS:
+                fields = object_list.model._meta.get_fields()
+            else:
+                fields = [
+                    field
+                    for field in object_list.model._meta.get_fields()
+                    if field.name in fields
+                ]
+            self.column_names = [
+                TableColumn(
+                    field.name, column_names.get(field.name, field.verbose_name.title())
+                )
+                for field in fields
                 if not field.primary_key or kwargs.get("show_primary_key", False)
             ]
         elif column_names is not None:
@@ -147,7 +175,7 @@ class TableSort:
                 else url_start[: len(url_start) - 1]
             )
             headers_str += """
-                <th class="column-sorted {classes}">
+                <th class="column-sorted">
                     <div>
                         {column_name}
                         <div class="sort-options {show_sort}">
@@ -163,7 +191,6 @@ class TableSort:
                 field_to_sort=field_to_sort,
                 column_name=column_name,
                 ordering_text=f"Sort by {column_name}" if first_sort else "Toggle sort",
-                classes=self.column_css_clases,
                 hide_cancel="hidden" if first_sort else "",
                 show_sort="show" if not first_sort else "",
                 sort_url=sort_url,
