@@ -147,7 +147,7 @@ class TableSort:
                 else url_start[: len(url_start) - 1]
             )
             headers_str += """
-                <th class="column-sorted {classes}">
+                <th class="column-sorted">
                     <div>
                         {column_name}
                         <div class="sort-options {show_sort}">
@@ -163,7 +163,6 @@ class TableSort:
                 field_to_sort=field_to_sort,
                 column_name=column_name,
                 ordering_text=f"Sort by {column_name}" if first_sort else "Toggle sort",
-                classes=self.column_css_clases,
                 hide_cancel="hidden" if first_sort else "",
                 show_sort="show" if not first_sort else "",
                 sort_url=sort_url,
