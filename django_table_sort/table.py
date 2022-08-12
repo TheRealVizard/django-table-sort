@@ -7,6 +7,8 @@ from django.utils.html import format_html
 from django_table_sort.columns import TableColumn
 from django_table_sort.columns import TableExtraColumn
 
+ALL_FIELDS = ["__all__"]
+
 
 class TableSort:
     r"""
@@ -14,7 +16,10 @@ class TableSort:
 
     :param request: current ``HttpRequest`` to get the url lookups to create the links.
     :param object_list: ``QuerySet`` or ``list`` to fill the table.
-    :param column_names: ``dict`` containing the pair {field_name: field_header}, this is used to set which field will be displayed and the proper headers. If no column_names are set and the object_list is a ``Queryset``, the all the fields in the Queryset's model will be used, and as the header their verbose_name.
+    :param fields: ``list`` This field sets which fields should be displayed, the default value is ['__all__'] that will display all the fields in the model and the verbose_name of them as the header of the columns. You can use the column_names param to customize the headers.
+    :param exclude: ``list`` Similar to the fields param, defines which fields should be excluded, all the field that aren't in the exclude list will be displayed.
+    If no column_names are set and the object_list is a ``Queryset``, the all the fields in the Queryset's model will be used, and as the header their verbose_name.
+    :param column_names: ``dict`` containing the pair {field_name: field_header}, this field has two uses, if you provide a ``list`` of X items this field will set which field will be displayed and the proper headers, if you provide a ``Queryset`` instead this field will define how the columns header will be displayed.
     :param sort_key_name: ``str`` for the key name that will be used to create the sort lookup in the urls.
     :param table_css_clases: class to be applied to the table.
     :param table_id: ``str`` for the id of the generated tabled.
@@ -24,14 +29,16 @@ class TableSort:
     :Keyword Arguments:
         * *show_primary_key* (``bool``) --
           Set if the primary key of the model should be displayed, default=``False``.
-        * *added_columns* (``dict``) --
-          Extra columns to show in the table, should be a ``dict`` object having the pair {(field_identifier,field_header):callable_function}. Note that field_identifier is to mark a difference to the models fields and callable_function needs to be a function that will receive an object and return an str to print in the table column
+        * *added_columns* (``list``) --
+          Extra columns to show in the table, should be a ``list`` object having the pair ((field_identifier, field_header), callable_function). Note that field_identifier is to mark a difference to the models fields and callable_function needs to be a function that will receive an object and return an str to print in the table column
     """
 
     def __init__(
         self,
         request: HttpRequest,
         object_list: QuerySet | list,
+        fields: list = ALL_FIELDS,
+        exclude: list = None,
         column_names: None | dict[str, str] = None,
         sort_key_name: str = "o",
         table_css_clases: str = "table",
@@ -44,10 +51,34 @@ class TableSort:
         self.table_css_clases = table_css_clases
         self.table_id = table_id
         self.kwargs = kwargs
-        if column_names is None and isinstance(object_list, QuerySet):
+        column_names = column_names or {}
+        if exclude is not None and isinstance(object_list, QuerySet):
+            fields = [
+                field
+                for field in object_list.model._meta.get_fields()
+                if field.name not in exclude
+            ]
             self.column_names = [
-                TableColumn(field.name, field.verbose_name.title())
-                for field in object_list.model._meta.fields
+                TableColumn(
+                    field.name, column_names.get(field.name, field.verbose_name.title())
+                )
+                for field in fields
+                if not field.primary_key or kwargs.get("show_primary_key", False)
+            ]
+        elif fields is not None and isinstance(object_list, QuerySet):
+            if fields == ALL_FIELDS:
+                fields = object_list.model._meta.get_fields()
+            else:
+                fields = [
+                    field
+                    for field in object_list.model._meta.get_fields()
+                    if field.name in fields
+                ]
+            self.column_names = [
+                TableColumn(
+                    field.name, column_names.get(field.name, field.verbose_name.title())
+                )
+                for field in fields
                 if not field.primary_key or kwargs.get("show_primary_key", False)
             ]
         elif column_names is not None:
@@ -147,7 +178,7 @@ class TableSort:
                 else url_start[: len(url_start) - 1]
             )
             headers_str += """
-                <th class="column-sorted {classes}">
+                <th class="column-sorted">
                     <div>
                         {column_name}
                         <div class="sort-options {show_sort}">
@@ -163,7 +194,6 @@ class TableSort:
                 field_to_sort=field_to_sort,
                 column_name=column_name,
                 ordering_text=f"Sort by {column_name}" if first_sort else "Toggle sort",
-                classes=self.column_css_clases,
                 hide_cancel="hidden" if first_sort else "",
                 show_sort="show" if not first_sort else "",
                 sort_url=sort_url,
