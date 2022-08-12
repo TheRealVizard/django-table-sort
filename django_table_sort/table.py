@@ -4,8 +4,7 @@ from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.html import format_html
 
-from django_table_sort.columns import TableColumn
-from django_table_sort.columns import TableExtraColumn
+from django_table_sort.columns import TableColumn, TableExtraColumn
 
 ALL_FIELDS = ["__all__"]
 
@@ -16,7 +15,10 @@ class TableSort:
 
     :param request: current ``HttpRequest`` to get the url lookups to create the links.
     :param object_list: ``QuerySet`` or ``list`` to fill the table.
-    :param column_names: ``dict`` containing the pair {field_name: field_header}, this is used to set which field will be displayed and the proper headers. If no column_names are set and the object_list is a ``Queryset``, the all the fields in the Queryset's model will be used, and as the header their verbose_name.
+    :param fields: ``list`` This field sets which fields should be displayed, the default value is ['__all__'] that will display all the fields in the model and the verbose_name of them as the header of the columns. You can use the column_names param to customize the headers.
+    :param exclude: ``list`` Similar to the fields param, defines which fields should be excluded, all the field that aren't in the exclude list will be displayed.
+    If no column_names are set and the object_list is a ``Queryset``, the all the fields in the Queryset's model will be used, and as the header their verbose_name.
+    :param column_names: ``dict`` containing the pair {field_name: field_header}, this field has two uses, if you provide a ``list`` of X items this field will set which field will be displayed and the proper headers, if you provide a ``Queryset`` instead this field will define how the columns header will be displayed.
     :param sort_key_name: ``str`` for the key name that will be used to create the sort lookup in the urls.
     :param table_css_clases: class to be applied to the table.
     :param table_id: ``str`` for the id of the generated tabled.
