@@ -45,6 +45,7 @@ Table CSS
 You can provide the css classes that the table should have as below.
 
 .. code-block:: python
+
     from django.views.generic import ListView
     from django_table_sort.table import TableSort
 
@@ -73,11 +74,13 @@ Fields and exclude
 The default behavior is to show all fields of the model. If you want to show only certain field you can set this in the fields parameter as follows.
 
 .. code-block:: python
+
     TableSort(request, object_list, fields=["name"])
 
 This code will display only the field name in the table. You can also set which fields you don't want to display.
 
 .. code-block:: python
+
     TableSort(request, object_list, exclude=["age"])
 
 Any field you pass in the exclude parameter will not be display, and the others that aren't, will be.
@@ -90,6 +93,7 @@ Customizing fields headers
 **************************
 
 .. code-block:: python
+
     TableSort(request, object_list, fields=["age"], column_names={"age": "Age"})
 
 You can set a custom header for any field. For this you can use the column_names parameter.
@@ -104,6 +108,7 @@ Adding extra columns
 Sometimes you may want to add a custom column to the table column. You can do this using the added_columns parameter.
 
 .. code-block:: python
+
     def sum(instance):
         return f"Sum {instance.age + 1}"
 
@@ -125,6 +130,7 @@ List of items
 For list of items you need to set the column_names. All the field in the dictionary will be displayed.
 
 .. code-block:: python
+
     TableSort(
         request,
         [person_1, person_2],
