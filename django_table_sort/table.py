@@ -36,9 +36,9 @@ class TableSort:
     :param **kwargs: See below
 
     :Keyword Arguments:
-        * *show_primary_key* (``bool``) --
+        *show_primary_key* (``bool``) --
           Set if the primary key of the model should be displayed, default=``False``.
-        * *added_columns* (``list``) --
+        *added_columns* (``list``) --
           Extra columns to show in the table, should be a ``list`` object
           having the pair ((field_identifier, field_header), callable_function).
           Note that field_identifier is to mark a difference to the models fields
