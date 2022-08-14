@@ -17,7 +17,7 @@ class TableSort:
     :param request: current ``HttpRequest`` to get the url lookups to create the links.
     :param object_list: ``QuerySet`` or ``list`` to fill the table.
     :param fields: ``list`` This field sets which fields should be displayed, the default
-    value is ['__all__'] that will display all the fields in the model
+    value is ["__all__"] that will display all the fields in the model
     and the verbose_name of them as the header of the columns. You can use the
     column_names param to customize the headers.
     :param exclude: ``list`` Similar to the fields param, defines which fields
