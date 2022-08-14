@@ -1,6 +1,6 @@
-========
+=================
 django-table-sort
-========
+=================
 
 .. image:: https://results.pre-commit.ci/badge/github/TheRealVizard/django-table-sort/main.svg
    :target: https://results.pre-commit.ci/latest/github/TheRealVizard/django-table-sort/main
@@ -29,6 +29,9 @@ django-table-sort
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/psf/black
    :alt: code-style-black
+
+..  image:: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
+   :target: https://github.com/TheRealVizard/django-table-sort/blob/main/CODE_OF_CONDUCT.md
 
 .. image:: https://img.shields.io/pypi/dm/django-table-sort
    :alt: downloads
