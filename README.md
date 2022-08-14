@@ -1,10 +1,13 @@
 # Django-table-sort
 
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/TheRealVizard/django-table-sort/main.svg)](https://results.pre-commit.ci/latest/github/TheRealVizard/django-table-sort/main) [![Documentation Status](https://readthedocs.org/projects/django-table-sort/badge/?version=latest)](https://django-table-sort.readthedocs.io/en/latest/?badge=latest) [![codecov](https://codecov.io/gh/TheRealVizard/django-table-sort/branch/main/graph/badge.svg?token=KGXHPZ6HOB)](https://codecov.io/gh/TheRealVizard/django-table-sort) ![django-table-sort](https://img.shields.io/pypi/v/django-table-sort?color=blue) ![python-versions](https://img.shields.io/pypi/pyversions/django-table-sort) ![django-versions](https://img.shields.io/pypi/frameworkversions/django/django-table-sort?label=django) ![license](https://img.shields.io/pypi/l/django-table-sort?color=blue) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) ![downloads](https://img.shields.io/pypi/dm/django-table-sort)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/TheRealVizard/django-table-sort/main.svg)](https://results.pre-commit.ci/latest/github/TheRealVizard/django-table-sort/main) [![Documentation Status](https://readthedocs.org/projects/django-table-sort/badge/?version=latest)](https://django-table-sort.readthedocs.io/en/latest/?badge=latest) [![codecov](https://codecov.io/gh/TheRealVizard/django-table-sort/branch/main/graph/badge.svg?token=KGXHPZ6HOB)](https://codecov.io/gh/TheRealVizard/django-table-sort) ![django-table-sort](https://img.shields.io/pypi/v/django-table-sort?color=blue) ![python-versions](https://img.shields.io/pypi/pyversions/django-table-sort) ![django-versions](https://img.shields.io/pypi/frameworkversions/django/django-table-sort?label=django) ![license](https://img.shields.io/pypi/l/django-table-sort?color=blue) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md) ![downloads](https://img.shields.io/pypi/dm/django-table-sort)
 
 Create tables with sorting links on the headers in Django templates.
 
-This is currently [WIP](https://en.wikipedia.org/wiki/Work_in_process), so many other features will come in future releases.
+Documentation, including installation and configuration instructions, is available at https://django-table-sort.readthedocs.io/.
+
+The Django Table Sort is released under the BSD license, like Django itself. If you like it, please consider [contributing!](./CONTRIBUTING.md)
+
 ## Installation
 
 **First**, install with pip:
