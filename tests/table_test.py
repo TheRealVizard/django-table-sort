@@ -1,6 +1,7 @@
-from django.test import RequestFactory, TestCase
-from django_table_sort.table import TableSort
+from django.test import RequestFactory
+from django.test import TestCase
 
+from django_table_sort.table import TableSort
 from tests.models import Person
 
 
