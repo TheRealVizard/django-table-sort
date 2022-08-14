@@ -33,7 +33,7 @@ class TableSort:
         the sort lookup in the urls.
     :param table_css_clases: class to be applied to the table.
     :param table_id: ``str`` for the id of the generated tabled.
-    :param **kwargs: See below
+    :param kwargs: See below
 
     :Keyword Arguments:
         * **show_primary_key** (``bool``) -- Set if the
