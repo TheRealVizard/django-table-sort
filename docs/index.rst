@@ -1,6 +1,6 @@
-========
+=================
 django-table-sort
-========
+=================
 
 .. image:: https://results.pre-commit.ci/badge/github/TheRealVizard/django-table-sort/main.svg
    :target: https://results.pre-commit.ci/latest/github/TheRealVizard/django-table-sort/main

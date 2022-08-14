@@ -11,7 +11,7 @@ ALL_FIELDS = ["__all__"]
 
 
 class TableSort:
-    r"""
+    """
     Class to generate the table with the sort.
 
     :param request: current ``HttpRequest`` to get the url lookups to create the links.
