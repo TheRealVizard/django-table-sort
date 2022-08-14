@@ -4,7 +4,8 @@ from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.html import format_html
 
-from django_table_sort.columns import TableColumn, TableExtraColumn
+from django_table_sort.columns import TableColumn
+from django_table_sort.columns import TableExtraColumn
 
 ALL_FIELDS = ["__all__"]
 

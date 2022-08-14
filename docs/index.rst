@@ -30,8 +30,8 @@ django-table-sort
    :target: https://github.com/psf/black
    :alt: code-style-black
 
-..  image:: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg 
-   :target: /CODE_OF_CONDUCT.md
+..  image:: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
+   :target: https://github.com/TheRealVizard/django-table-sort/blob/main/CODE_OF_CONDUCT.md
 
 .. image:: https://img.shields.io/pypi/dm/django-table-sort
    :alt: downloads
