@@ -37,13 +37,13 @@ class TableSort:
 
     :Keyword Arguments:
         * **show_primary_key** (``bool``) -- Set if the
-        primary key of the model should be displayed, default=``False``.
+            primary key of the model should be displayed, default=``False``.
         * **added_columns** (``list``) -- Extra columns to show in the table,
-          should be a ``list`` object having the pair
-          ((field_identifier, field_header), callable_function).
-          Note that field_identifier is to mark a difference to the models fields
-          and callable_function needs to be a function that will receive an
-          object and return an str to print in the table column.
+            should be a ``list`` object having the pair
+            ((field_identifier, field_header), callable_function).
+            Note that field_identifier is to mark a difference to the models fields
+            and callable_function needs to be a function that will receive an
+            object and return an str to print in the table column.
     """
 
     def __init__(
