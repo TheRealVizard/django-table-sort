@@ -4,8 +4,7 @@ from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.html import format_html
 
-from django_table_sort.columns import TableColumn
-from django_table_sort.columns import TableExtraColumn
+from django_table_sort.columns import TableColumn, TableExtraColumn
 
 ALL_FIELDS = ["__all__"]
 
@@ -33,8 +32,7 @@ class TableSort:
     the sort lookup in the urls.
     :param table_css_clases: class to be applied to the table.
     :param table_id: ``str`` for the id of the generated tabled.
-    :param **kwargs:
-        See below
+    :param **kwargs: See below
 
     :Keyword Arguments:
         * *show_primary_key* (``bool``) --
