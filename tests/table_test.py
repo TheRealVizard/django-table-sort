@@ -1,7 +1,6 @@
-from django.test import RequestFactory
-from django.test import TestCase
-
+from django.test import RequestFactory, TestCase
 from django_table_sort.table import TableSort
+
 from tests.models import Person
 
 
@@ -61,6 +60,24 @@ class Test(TestCase):
         self.assertIn(self.person.name, result)
         self.assertNotIn(str(self.person.age), result)
 
+    def test_table_show_primary_field(self):
+        table = TableSort(
+            request=self.request,
+            object_list=Person.objects.all(),
+            show_primary_key=True,
+        )
+        table_columns = [
+            (column.column_field, column.column_header) for column in table.column_names
+        ]
+        self.assertEqual(len(table_columns), 3)
+        self.assertIn(("id", "Id"), table_columns)
+        self.assertIn(("name", "Full Name"), table_columns)
+        self.assertIn(("age", "Age In Years"), table_columns)
+        result = table.render()
+        self.assertIn(str(self.person.id), result)
+        self.assertIn(self.person.name, result)
+        self.assertIn(str(self.person.age), result)
+
     def test_table_exclude(self):
         table = TableSort(
             request=self.request, object_list=Person.objects.all(), exclude=["name"]
@@ -74,3 +91,35 @@ class Test(TestCase):
         result = table.render()
         self.assertNotIn(self.person.name, result)
         self.assertIn(str(self.person.age), result)
+
+    def test_table_single_field_sort(self):
+        table = TableSort(
+            request=self.request,
+            object_list=Person.objects.all(),
+        )
+        result = table.render()
+        self.assertIn("?o=name", result)
+        self.assertIn("?o=age", result)
+        table = TableSort(
+            request=self.request_factory.get("?o=name"),
+            object_list=Person.objects.all(),
+        )
+        result = table.render()
+        self.assertIn("?o=-name", result)
+        self.assertIn("?o=name&o=age", result)
+
+    def test_table_multiple_field_sort(self):
+        table = TableSort(
+            request=self.request_factory.get("?page=1"),
+            object_list=Person.objects.all(),
+        )
+        result = table.render()
+        self.assertIn("?page=1&o=name", result)
+        self.assertIn("?page=1&o=age", result)
+        table = TableSort(
+            request=self.request_factory.get("?page=1&o=name"),
+            object_list=Person.objects.all(),
+        )
+        result = table.render()
+        self.assertIn("?page=1&o=-name", result)
+        self.assertIn("?page=1&o=name&o=age", result)

@@ -4,8 +4,7 @@ from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.html import format_html
 
-from django_table_sort.columns import TableColumn
-from django_table_sort.columns import TableExtraColumn
+from django_table_sort.columns import TableColumn, TableExtraColumn
 
 ALL_FIELDS = ["__all__"]
 
@@ -157,39 +156,8 @@ class TableSort:
                 headers_str += f"<th>{column.column_header}</th>"
                 continue
             field_to_sort, column_name = column.column_field, column.column_header
-            url_start = self.request.GET.urlencode()
-            sort_url = self.request.GET.urlencode()
-            order_up = True
-            first_sort = True
-            if f"o=-{field_to_sort}" in sort_url:
-                first_sort = False
-                sort_url = sort_url.replace(
-                    f"&o=-{field_to_sort}", f"&o={field_to_sort}"
-                )
-                sort_url = sort_url.replace(f"o=-{field_to_sort}", f"o={field_to_sort}")
-                url_start = url_start.replace(f"&o=-{field_to_sort}", "")
-                url_start = url_start.replace(f"o=-{field_to_sort}", "")
-            elif f"o={field_to_sort}" in sort_url:
-                order_up = False
-                first_sort = False
-                sort_url = sort_url.replace(
-                    f"&o={field_to_sort}", f"&o=-{field_to_sort}"
-                )
-                sort_url = sort_url.replace(f"o={field_to_sort}", f"o=-{field_to_sort}")
-                url_start = url_start.replace(f"&o={field_to_sort}", "")
-                url_start = url_start.replace(f"o={field_to_sort}", "")
-            else:
-                sort_url = (
-                    (sort_url + "&")
-                    if len(sort_url) > 1 and not sort_url.endswith("&")
-                    else sort_url
-                )
-                sort_url += f"o={field_to_sort}"
-            url_start = url_start if not url_start.startswith("&") else url_start[1:]
-            url_start = (
-                url_start
-                if not url_start.endswith("&")
-                else url_start[: len(url_start) - 1]
+            sort_url, remove_sort_url, first_sort, descending = self.get_sort_url(
+                field_to_sort
             )
             headers_str += """
                 <th class="column-sorted">
@@ -201,7 +169,7 @@ class TableSort:
                             </a>
                         </div>
                         <div class="sort-options">
-                            <a href="?{url_start}"
+                            <a href="?{remove_sort_url}"
                                 class="{hide_cancel}"
                                 role="button"
                                 title="Remove sort">
@@ -210,8 +178,12 @@ class TableSort:
                         </div>
                     </div>
                 </th>""".format(  # noqa: F522
-                url_start=url_start,
-                sort_direction="" if first_sort else "-up" if not order_up else "-down",
+                remove_sort_url=remove_sort_url,
+                sort_direction=""
+                if first_sort
+                else "-up"
+                if not descending
+                else "-down",
                 field_to_sort=field_to_sort,
                 column_name=column_name,
                 ordering_text=f"Sort by {column_name}" if first_sort else "Toggle sort",
@@ -220,3 +192,48 @@ class TableSort:
                 sort_url=sort_url,
             )
         return headers_str
+
+    def contains_field(self, lookups, field):
+        try:
+            return lookups.index(field)
+        except ValueError:
+            return -1
+
+    def get_sort_url(self, field):
+        lookups = self.request.GET.copy()
+        removed_lookup = self.request.GET.copy()
+
+        first_sort = True
+        descending = True
+
+        if self.sort_key_name in lookups.keys():
+            current_order = lookups.getlist(self.sort_key_name, [])
+            removed_order = current_order.copy()
+            position = self.contains_field(current_order, field)
+            if position != -1:
+                first_sort = False
+                descending = False
+                current_order[position] = f"-{field}"
+                removed_order.remove(field)
+            else:
+                position = self.contains_field(current_order, f"-{field}")
+                if position != -1:
+                    first_sort = False
+                    current_order[position] = field
+                    removed_order.remove(f"-{field}")
+                else:
+                    current_order.append(field)
+            lookups.setlist(self.sort_key_name, current_order)
+            if len(removed_order) >= 1:
+                removed_lookup.setlist(self.sort_key_name, removed_order)
+            else:
+                removed_lookup.pop(self.sort_key_name)
+        else:
+            lookups.setlist(self.sort_key_name, [field])
+
+        return (
+            lookups.urlencode(),
+            removed_lookup.urlencode(),
+            first_sort,
+            descending,
+        )
