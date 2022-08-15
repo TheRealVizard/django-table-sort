@@ -124,3 +124,32 @@ class Test(TestCase):
         result = table.render()
         self.assertIn("?page=1&o=-name", result)
         self.assertIn("?page=1&o=name&o=age", result)
+
+    def test_table_column_order(self):
+        table = TableSort(
+            request=self.request,
+            object_list=Person.objects.all(),
+        )
+        result = table.render()
+        age_column_pos = result.find("Age In Years")
+        name_column_pos = result.find("Full Name")
+        self.assertGreater(age_column_pos, name_column_pos)
+        table = TableSort(
+            request=self.request, object_list=Person.objects.all(), field_order=["age"]
+        )
+        result = table.render()
+        age_column_pos = result.find("Age in years")
+        name_column_pos = result.find("Full Name")
+        self.assertGreater(name_column_pos, age_column_pos)
+        table = TableSort(
+            request=self.request,
+            object_list=Person.objects.all(),
+            field_order=["age", "name"],
+            show_primary_key=True,
+        )
+        result = table.render()
+        age_column_pos = result.find("Age in years")
+        name_column_pos = result.find("Full Name")
+        id_column_pos = result.find("Id")
+        self.assertGreater(name_column_pos, age_column_pos)
+        self.assertGreater(id_column_pos, name_column_pos)
