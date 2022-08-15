@@ -155,4 +155,23 @@ Sometimes you may want to show the primary key of your model, the default behavi
     )
 
 
+Fields order
+************
+
+You can set the order to display the field in the table. For this you should use the field_order parameter.
+
+.. code-block:: python
+
+    TableSort(
+        request,
+        object_list,
+        field_order=["age"],
+    )
+
+This will display the age as the first column in the table.
+
+.. note::
+    The field will be displayed following the order you give, but if you don't include a given field this
+    will be displayed as the last. The field_order parameter works as a priority list.
+
 To see the different options you can provide please see the section :ref:`table-sort-class`.

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import sys
+
 from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.html import format_html
@@ -29,6 +31,7 @@ class TableSort:
         will be displayed and the proper headers, if you provide
         a ``Queryset`` instead this field will define how the
         columns header will be displayed.
+    :param field_order: ``list`` containing the fields in the order that you want
     :param sort_key_name: ``str`` for the key name that will be used to create
         the sort lookup in the urls.
     :param table_css_clases: class to be applied to the table.
@@ -53,6 +56,7 @@ class TableSort:
         fields: list = ALL_FIELDS,
         exclude: list = None,
         column_names: None | dict[str, str] = None,
+        field_order: None | list[str] = None,
         sort_key_name: str = "o",
         table_css_clases: str = "table",
         table_id: str = None,
@@ -105,6 +109,7 @@ class TableSort:
             TableExtraColumn(column_info[0], column_info[1], column_function)
             for column_info, column_function in self.kwargs.get("added_columns", [])
         ]
+        self.sort_columns(field_order)
 
     def __str__(self):
         """Returns the table in HTML format."""
@@ -193,13 +198,15 @@ class TableSort:
             )
         return headers_str
 
-    def contains_field(self, lookups, field):
+    def contains_field(self, lookups: list, field: str) -> int:
+        """Check if the field is in the sort lookups."""
         try:
             return lookups.index(field)
         except ValueError:
             return -1
 
-    def get_sort_url(self, field):
+    def get_sort_url(self, field: str) -> tuple[str, str, bool, bool]:
+        """Generate the urls to sort the table for the given field."""
         lookups = self.request.GET.copy()
         removed_lookup = self.request.GET.copy()
 
@@ -237,3 +244,17 @@ class TableSort:
             first_sort,
             descending,
         )
+
+    def sort_columns(self, field_order: list):
+        """Sort the columns according to the field order."""
+        if len(self.column_names) == 0 or field_order is None:
+            return self.column_names
+
+        def get_field_priority(field: str) -> int:
+            """Get the priority of the field."""
+            try:
+                return field_order.index(field)
+            except ValueError:
+                return sys.maxsize
+
+        self.column_names.sort(key=lambda item: get_field_priority(item.column_field))
