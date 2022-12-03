@@ -6,8 +6,13 @@ from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.html import format_html
 
-from django_table_sort.columns import TableColumn
-from django_table_sort.columns import TableExtraColumn
+from django_table_sort.columns import (
+    EMPTY_COLUMN,
+    EmptyColumn,
+    TableColumn,
+    TableExtraColumn,
+)
+from django_table_sort.helpers import EmptyColumnGenerator
 
 ALL_FIELDS = ["__all__"]
 
@@ -99,8 +104,11 @@ class TableSort:
                 if not field.primary_key or kwargs.get("show_primary_key", False)
             ]
         elif column_names is not None:
+            empty_column_generator = EmptyColumnGenerator()
             self.column_names = [
                 TableColumn(column_name, column_header)
+                if column_name != EMPTY_COLUMN
+                else empty_column_generator.get_next_empty_column()
                 for column_name, column_header in column_names.items()
             ]
         else:
@@ -150,6 +158,8 @@ class TableSort:
                     row_str += f"<td>{column.get_value(obj)}</td>"
                 if isinstance(column, TableExtraColumn):
                     row_str += f"<td>{column.get_value(obj)}</td>"
+                if isinstance(column, EmptyColumn):
+                    row_str += f"<td></td>"
             body_str += f"<tr>{row_str}</tr>"
         return body_str
 
@@ -157,7 +167,7 @@ class TableSort:
         """Generate the column with the link to sort."""
         headers_str: str = ""
         for column in self.column_names:
-            if isinstance(column, TableExtraColumn):
+            if isinstance(column, (TableExtraColumn, EmptyColumn)):
                 headers_str += f"<th>{column.column_header}</th>"
                 continue
             field_to_sort, column_name = column.column_field, column.column_header
@@ -250,11 +260,20 @@ class TableSort:
         if len(self.column_names) == 0 or field_order is None:
             return self.column_names
 
-        def get_field_priority(field: str) -> int:
+        empty_column_generator = EmptyColumnGenerator()
+
+        field_order = [
+            field
+            if field != EMPTY_COLUMN
+            else empty_column_generator.get_next_empty_column_key()
+            for field in field_order
+        ]
+
+        def _get_field_priority(field: str) -> int:
             """Get the priority of the field."""
             try:
                 return field_order.index(field)
             except ValueError:
                 return sys.maxsize
 
-        self.column_names.sort(key=lambda item: get_field_priority(item.column_field))
+        self.column_names.sort(key=lambda item: _get_field_priority(item.column_field))
