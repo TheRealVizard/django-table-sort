@@ -1,2 +1,0 @@
-from django_table_sort.columns import EmptyColumn
-from django_table_sort.table import EMPTY_COLUMN

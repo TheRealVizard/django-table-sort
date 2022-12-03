@@ -1,4 +1,5 @@
-from django_table_sort.columns import EMPTY_COLUMN, EmptyColumn
+from django_table_sort.columns import EMPTY_COLUMN
+from django_table_sort.columns import EmptyColumn
 
 
 class EmptyColumnGenerator:
