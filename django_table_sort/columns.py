@@ -2,7 +2,7 @@ from typing import Callable
 
 from django.db.models import Model
 
-EMPTY_COLUMN = "EMPTY_COLUMN"
+EMPTY_COLUMN = "EMPTY-COLUMN"
 
 
 class BaseColumn:

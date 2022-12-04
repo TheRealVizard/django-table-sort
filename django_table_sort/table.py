@@ -105,8 +105,9 @@ class TableSort:
             empty_column_generator = EmptyColumnGenerator()
             self.column_names = [
                 TableColumn(column_name, column_header)
-                if column_name != EMPTY_COLUMN
-                else empty_column_generator.get_next_empty_column()
+                if column_name
+                != empty_column_generator.get_next_empty_column_key_no_add()
+                else empty_column_generator.get_next_empty_column(column_header)
                 for column_name, column_header in column_names.items()
             ]
         else:
@@ -157,7 +158,7 @@ class TableSort:
                 if isinstance(column, TableExtraColumn):
                     row_str += f"<td>{column.get_value(obj)}</td>"
                 if isinstance(column, EmptyColumn):
-                    row_str += f"<td></td>"
+                    row_str += "<td></td>"
             body_str += f"<tr>{row_str}</tr>"
         return body_str
 
