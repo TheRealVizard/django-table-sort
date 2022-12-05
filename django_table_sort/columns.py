@@ -2,6 +2,8 @@ from typing import Callable
 
 from django.db.models import Model
 
+EMPTY_COLUMN = "EMPTY-COLUMN"
+
 
 class BaseColumn:
     def __init__(self, column_field: str, column_header: str) -> None:
@@ -27,3 +29,8 @@ class TableExtraColumn(BaseColumn):
     def get_value(self, instance: Model):
         """Return the column value for a given instance."""
         return self.function(instance)
+
+
+class EmptyColumn(BaseColumn):
+    def get_value(self, instance: Model):
+        return ""

@@ -1,6 +1,7 @@
 from django.test import RequestFactory
 from django.test import TestCase
 
+from django_table_sort.columns import EMPTY_COLUMN
 from django_table_sort.table import TableSort
 from tests.models import Person
 
@@ -153,3 +154,43 @@ class Test(TestCase):
         id_column_pos = result.find("Id")
         self.assertGreater(name_column_pos, age_column_pos)
         self.assertGreater(id_column_pos, name_column_pos)
+
+    def test_table_empty_column_creation(self):
+        table = TableSort(
+            request=self.request,
+            object_list=[],
+            column_names={
+                "filed1": "Field1",
+                "EMPTY-COLUMN-1": "An EMPTY COLUMN1",
+                "EMPTY-COLUMN-2": "An EMPTY COLUMN2",
+            },
+        )
+        result = table.render()
+        table_columns = [
+            (column.column_field, column.column_header) for column in table.column_names
+        ]
+        self.assertEqual(len(table_columns), 3)
+        self.assertIn(("filed1", "Field1"), table_columns)
+        self.assertIn(("EMPTY-COLUMN-1", "An EMPTY COLUMN1"), table_columns)
+        self.assertIn(("EMPTY-COLUMN-2", "An EMPTY COLUMN2"), table_columns)
+        self.assertIn("<th>An EMPTY COLUMN1</th>", result)
+        self.assertIn("<th>An EMPTY COLUMN2</th>", result)
+
+    def test_table_empty_column_sort(self):
+        table = TableSort(
+            request=self.request,
+            object_list=[],
+            column_names={
+                "filed1": "Field1",
+                "EMPTY-COLUMN-1": "An EMPTY COLUMN1",
+                "EMPTY-COLUMN-2": "An EMPTY COLUMN2",
+            },
+            field_order=[EMPTY_COLUMN, "filed1", EMPTY_COLUMN],
+        )
+        result = table.render()
+        field1_column_pos = result.find("Field1")
+        empty_col_1_pos = result.find("An EMPTY COLUMN1")
+        empty_col_2_pos = result.find("An EMPTY COLUMN2")
+        self.assertGreater(empty_col_2_pos, empty_col_1_pos)
+        self.assertGreater(field1_column_pos, empty_col_1_pos)
+        self.assertGreater(empty_col_2_pos, field1_column_pos)
