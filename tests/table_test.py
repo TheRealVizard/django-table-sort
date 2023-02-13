@@ -194,7 +194,7 @@ class Test(TestCase):
         self.assertGreater(empty_col_2_pos, empty_col_1_pos)
         self.assertGreater(field1_column_pos, empty_col_1_pos)
         self.assertGreater(empty_col_2_pos, field1_column_pos)
-    
+
     def test_table_header_css_classes(self):
         table = TableSort(
             request=self.request,
@@ -207,6 +207,4 @@ class Test(TestCase):
             column_headers_css_classes={"filed1": "filed1-header-class"},
         )
         result = table.render()
-        self.assertIn(
-            "filed1-header-class",result
-        )
+        self.assertIn("filed1-header-class", result)

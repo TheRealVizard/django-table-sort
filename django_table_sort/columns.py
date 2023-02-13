@@ -7,10 +7,11 @@ EMPTY_COLUMN = "EMPTY-COLUMN"
 
 class BaseColumn:
     def __init__(
-        self, column_field: str, column_header: str, css_classes: dict = {}
+        self, column_field: str, column_header: str, css_classes: dict
     ) -> None:
         self.column_field = column_field
         self.column_header = column_header
+        css_classes = css_classes or {}
         self.css_classes = css_classes.get(column_field, "")
 
     def get_value(self, instance: Model):
@@ -31,7 +32,7 @@ class TableExtraColumn(BaseColumn):
         column_field: str,
         column_header: str,
         function: Callable,
-        css_classes: dict = {},
+        css_classes: dict,
     ) -> None:
         super().__init__(column_field, column_header, css_classes)
         self.function = function

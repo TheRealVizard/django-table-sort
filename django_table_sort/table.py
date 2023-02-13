@@ -6,12 +6,10 @@ from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.html import format_html
 
-from django_table_sort.columns import (
-    EMPTY_COLUMN,
-    EmptyColumn,
-    TableColumn,
-    TableExtraColumn,
-)
+from django_table_sort.columns import EMPTY_COLUMN
+from django_table_sort.columns import EmptyColumn
+from django_table_sort.columns import TableColumn
+from django_table_sort.columns import TableExtraColumn
 from django_table_sort.helpers import EmptyColumnGenerator
 
 ALL_FIELDS = ["__all__"]
@@ -53,7 +51,8 @@ class TableSort:
             and callable_function needs to be a function that will receive an
             object and return an str to print in the table column.
         * **column_headers_css_classes** -- CSS classes to be applied to the
-        column headers. Should be a dictionary having the fields as keys and the css classes to be applied as values.
+        column headers. Should be a dictionary having the fields as keys
+        and the css classes to be applied as values.
     """
 
     def __init__(
