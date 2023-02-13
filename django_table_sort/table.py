@@ -50,6 +50,9 @@ class TableSort:
             Note that field_identifier is to mark a difference to the models fields
             and callable_function needs to be a function that will receive an
             object and return an str to print in the table column.
+        * **column_headers_css_classes** -- CSS classes to be applied to the
+        column headers. Should be a dictionary having the fields as keys
+        and the css classes to be applied as values.
     """
 
     def __init__(
@@ -71,6 +74,7 @@ class TableSort:
         self.table_css_clases = table_css_clases
         self.table_id = table_id
         self.kwargs = kwargs
+        headers_css_classes = kwargs.get("column_headers_css_classes", {})
         column_names = column_names or {}
         if exclude is not None and isinstance(object_list, QuerySet):
             fields = [
@@ -80,7 +84,9 @@ class TableSort:
             ]
             self.column_names = [
                 TableColumn(
-                    field.name, column_names.get(field.name, field.verbose_name.title())
+                    field.name,
+                    column_names.get(field.name, field.verbose_name.title()),
+                    headers_css_classes,
                 )
                 for field in fields
                 if not field.primary_key or kwargs.get("show_primary_key", False)
@@ -96,7 +102,9 @@ class TableSort:
                 ]
             self.column_names = [
                 TableColumn(
-                    field.name, column_names.get(field.name, field.verbose_name.title())
+                    field.name,
+                    column_names.get(field.name, field.verbose_name.title()),
+                    headers_css_classes,
                 )
                 for field in fields
                 if not field.primary_key or kwargs.get("show_primary_key", False)
@@ -104,7 +112,7 @@ class TableSort:
         elif column_names is not None:
             empty_column_generator = EmptyColumnGenerator()
             self.column_names = [
-                TableColumn(column_name, column_header)
+                TableColumn(column_name, column_header, headers_css_classes)
                 if column_name
                 != empty_column_generator.get_next_empty_column_key_no_add()
                 else empty_column_generator.get_next_empty_column(column_header)
@@ -113,7 +121,9 @@ class TableSort:
         else:
             self.column_names = []
         self.column_names += [
-            TableExtraColumn(column_info[0], column_info[1], column_function)
+            TableExtraColumn(
+                column_info[0], column_info[1], column_function, headers_css_classes
+            )
             for column_info, column_function in self.kwargs.get("added_columns", [])
         ]
         self.sort_columns(field_order)
@@ -174,7 +184,7 @@ class TableSort:
                 field_to_sort
             )
             headers_str += """
-                <th class="column-sorted">
+                <th class="column-sorted{table_header_clases}">
                     <div>
                         {column_name}
                         <div class="sort-options {show_sort}">
@@ -204,6 +214,7 @@ class TableSort:
                 hide_cancel="hidden" if first_sort else "",
                 show_sort="show" if not first_sort else "",
                 sort_url=sort_url,
+                table_header_clases=column.classes(),
             )
         return headers_str
 

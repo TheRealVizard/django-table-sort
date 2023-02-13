@@ -194,3 +194,17 @@ class Test(TestCase):
         self.assertGreater(empty_col_2_pos, empty_col_1_pos)
         self.assertGreater(field1_column_pos, empty_col_1_pos)
         self.assertGreater(empty_col_2_pos, field1_column_pos)
+
+    def test_table_header_css_classes(self):
+        table = TableSort(
+            request=self.request,
+            object_list=[],
+            column_names={
+                "filed1": "Field1",
+                "EMPTY-COLUMN-1": "An EMPTY COLUMN1",
+                "EMPTY-COLUMN-2": "An EMPTY COLUMN2",
+            },
+            column_headers_css_classes={"filed1": "filed1-header-class"},
+        )
+        result = table.render()
+        self.assertIn("filed1-header-class", result)
