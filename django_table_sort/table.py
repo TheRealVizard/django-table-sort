@@ -6,10 +6,12 @@ from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.html import format_html
 
-from django_table_sort.columns import EMPTY_COLUMN
-from django_table_sort.columns import EmptyColumn
-from django_table_sort.columns import TableColumn
-from django_table_sort.columns import TableExtraColumn
+from django_table_sort.columns import (
+    EMPTY_COLUMN,
+    EmptyColumn,
+    TableColumn,
+    TableExtraColumn,
+)
 from django_table_sort.helpers import EmptyColumnGenerator
 
 ALL_FIELDS = ["__all__"]
@@ -50,6 +52,8 @@ class TableSort:
             Note that field_identifier is to mark a difference to the models fields
             and callable_function needs to be a function that will receive an
             object and return an str to print in the table column.
+        * **column_headers_css_classes** -- CSS classes to be applied to the
+        column headers. Should be a dictionary having the fields as keys and the css classes to be applied as values. 
     """
 
     def __init__(
@@ -71,6 +75,7 @@ class TableSort:
         self.table_css_clases = table_css_clases
         self.table_id = table_id
         self.kwargs = kwargs
+        headers_css_classes = kwargs.get("column_headers_css_classes", {})
         column_names = column_names or {}
         if exclude is not None and isinstance(object_list, QuerySet):
             fields = [
@@ -80,7 +85,7 @@ class TableSort:
             ]
             self.column_names = [
                 TableColumn(
-                    field.name, column_names.get(field.name, field.verbose_name.title())
+                    field.name, column_names.get(field.name, field.verbose_name.title()),headers_css_classes
                 )
                 for field in fields
                 if not field.primary_key or kwargs.get("show_primary_key", False)
@@ -96,7 +101,7 @@ class TableSort:
                 ]
             self.column_names = [
                 TableColumn(
-                    field.name, column_names.get(field.name, field.verbose_name.title())
+                    field.name, column_names.get(field.name, field.verbose_name.title()),headers_css_classes
                 )
                 for field in fields
                 if not field.primary_key or kwargs.get("show_primary_key", False)
@@ -104,7 +109,7 @@ class TableSort:
         elif column_names is not None:
             empty_column_generator = EmptyColumnGenerator()
             self.column_names = [
-                TableColumn(column_name, column_header)
+                TableColumn(column_name, column_header,headers_css_classes)
                 if column_name
                 != empty_column_generator.get_next_empty_column_key_no_add()
                 else empty_column_generator.get_next_empty_column(column_header)
@@ -113,7 +118,7 @@ class TableSort:
         else:
             self.column_names = []
         self.column_names += [
-            TableExtraColumn(column_info[0], column_info[1], column_function)
+            TableExtraColumn(column_info[0], column_info[1], column_function,headers_css_classes)
             for column_info, column_function in self.kwargs.get("added_columns", [])
         ]
         self.sort_columns(field_order)
@@ -174,7 +179,7 @@ class TableSort:
                 field_to_sort
             )
             headers_str += """
-                <th class="column-sorted">
+                <th class="column-sorted{table_header_clases}">
                     <div>
                         {column_name}
                         <div class="sort-options {show_sort}">
@@ -204,6 +209,7 @@ class TableSort:
                 hide_cancel="hidden" if first_sort else "",
                 show_sort="show" if not first_sort else "",
                 sort_url=sort_url,
+                table_header_clases=column.classes(),
             )
         return headers_str
 
@@ -214,45 +220,6 @@ class TableSort:
         except ValueError:
             return -1
 
-    def get_sort_url(self, field: str) -> tuple[str, str, bool, bool]:
-        """Generate the urls to sort the table for the given field."""
-        lookups = self.request.GET.copy()
-        removed_lookup = self.request.GET.copy()
-
-        first_sort = True
-        descending = True
-
-        if self.sort_key_name in lookups.keys():
-            current_order = lookups.getlist(self.sort_key_name, [])
-            removed_order = current_order.copy()
-            position = self.contains_field(current_order, field)
-            if position != -1:
-                first_sort = False
-                descending = False
-                current_order[position] = f"-{field}"
-                removed_order.remove(field)
-            else:
-                position = self.contains_field(current_order, f"-{field}")
-                if position != -1:
-                    first_sort = False
-                    current_order[position] = field
-                    removed_order.remove(f"-{field}")
-                else:
-                    current_order.append(field)
-            lookups.setlist(self.sort_key_name, current_order)
-            if len(removed_order) >= 1:
-                removed_lookup.setlist(self.sort_key_name, removed_order)
-            else:
-                removed_lookup.pop(self.sort_key_name)
-        else:
-            lookups.setlist(self.sort_key_name, [field])
-
-        return (
-            lookups.urlencode(),
-            removed_lookup.urlencode(),
-            first_sort,
-            descending,
-        )
 
     def sort_columns(self, field_order: list):
         """Sort the columns according to the field order."""

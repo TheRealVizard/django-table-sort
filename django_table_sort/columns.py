@@ -6,13 +6,19 @@ EMPTY_COLUMN = "EMPTY-COLUMN"
 
 
 class BaseColumn:
-    def __init__(self, column_field: str, column_header: str) -> None:
+    def __init__(
+        self, column_field: str, column_header: str, css_classes: dict = {}
+    ) -> None:
         self.column_field = column_field
         self.column_header = column_header
+        self.css_classes = css_classes.get(column_field, "")
 
     def get_value(self, instance: Model):
         """Return the column value for a given instance."""
         return getattr(instance, self.column_field)
+
+    def classes(self) -> str:
+        return self.css_classes
 
 
 class TableColumn(BaseColumn):
@@ -21,9 +27,13 @@ class TableColumn(BaseColumn):
 
 class TableExtraColumn(BaseColumn):
     def __init__(
-        self, column_field: str, column_header: str, function: Callable
+        self,
+        column_field: str,
+        column_header: str,
+        function: Callable,
+        css_classes: dict = {},
     ) -> None:
-        super().__init__(column_field, column_header)
+        super().__init__(column_field, column_header, css_classes)
         self.function = function
 
     def get_value(self, instance: Model):
