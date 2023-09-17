@@ -10,6 +10,7 @@ INSTALLED_APPS = (
     "django.contrib.sites",
     "django.contrib.messages",
     "tests",
+    "django_table_sort"
 )
 
 MIDDLEWARE = [
@@ -25,6 +26,7 @@ SECRET_KEY = "foobar"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
