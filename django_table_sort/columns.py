@@ -37,7 +37,7 @@ class TableExtraColumn(BaseColumn):
         column_field: str,
         column_header: str,
         function: Callable,
-        css_classes: dict | None = None,
+        css_classes: Optional[Dict] = None,
     ) -> None:
         super().__init__(column_field, column_header, css_classes)
         self.function = function
