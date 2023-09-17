@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Dict, Optional
 
 from django.db.models import Model
 
@@ -7,7 +7,10 @@ EMPTY_COLUMN = "EMPTY-COLUMN"
 
 class BaseColumn:
     def __init__(
-        self, column_field: str, column_header: str, css_classes: dict | None = None
+        self,
+        column_field: str,
+        column_header: str,
+        css_classes: Optional[Dict] = None,
     ) -> None:
         self.column_field = column_field
         self.column_header = column_header
