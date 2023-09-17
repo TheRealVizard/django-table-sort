@@ -10,7 +10,7 @@ INSTALLED_APPS = (
     "django.contrib.sites",
     "django.contrib.messages",
     "tests",
-    "django_table_sort"
+    "django_table_sort",
 )
 
 MIDDLEWARE = [

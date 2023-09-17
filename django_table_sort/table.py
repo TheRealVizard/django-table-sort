@@ -5,14 +5,11 @@ import sys
 from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.template.loader import render_to_string
-from django.utils.html import format_html
 
-from django_table_sort.columns import (
-    EMPTY_COLUMN,
-    EmptyColumn,
-    TableColumn,
-    TableExtraColumn,
-)
+from django_table_sort.columns import EMPTY_COLUMN
+from django_table_sort.columns import EmptyColumn
+from django_table_sort.columns import TableColumn
+from django_table_sort.columns import TableExtraColumn
 from django_table_sort.helpers import EmptyColumnGenerator
 
 ALL_FIELDS = ["__all__"]
@@ -79,7 +76,7 @@ class TableSort:
         self.table_css_clases = table_css_clases
         self.table_id = table_id
         self.kwargs = kwargs
-        self.template_name=template_name
+        self.template_name = template_name
         headers_css_classes = kwargs.get("column_headers_css_classes", {})
         column_names = column_names or {}
         if exclude is not None and isinstance(object_list, QuerySet):
