@@ -115,10 +115,12 @@ class TableSort:
         elif column_names is not None:
             empty_column_generator = EmptyColumnGenerator()
             self.column_names = [
-                TableColumn(column_name, column_header, headers_css_classes)
-                if column_name
-                != empty_column_generator.get_next_empty_column_key_no_add()
-                else empty_column_generator.get_next_empty_column(column_header)
+                (
+                    TableColumn(column_name, column_header, headers_css_classes)
+                    if column_name
+                    != empty_column_generator.get_next_empty_column_key_no_add()
+                    else empty_column_generator.get_next_empty_column(column_header)
+                )
                 for column_name, column_header in column_names.items()
             ]
         else:
@@ -142,12 +144,14 @@ class TableSort:
             {
                 "body": self.get_table_body(),
                 "headers": self.get_table_headers(),
-                "table_clases": str(f' class="{self.table_css_clases}"')
-                if self.table_css_clases is not None
-                else "",
-                "table_id": f' id="{self.table_id}"'
-                if self.table_id is not None
-                else "",
+                "table_clases": (
+                    str(f' class="{self.table_css_clases}"')
+                    if self.table_css_clases is not None
+                    else ""
+                ),
+                "table_id": (
+                    f' id="{self.table_id}"' if self.table_id is not None else ""
+                ),
             },
         )
 
@@ -197,11 +201,9 @@ class TableSort:
                     </div>
                 </th>""".format(  # noqa: F522
                 remove_sort_url=remove_sort_url,
-                sort_direction=""
-                if first_sort
-                else "-up"
-                if not descending
-                else "-down",
+                sort_direction=(
+                    "" if first_sort else "-up" if not descending else "-down"
+                ),
                 field_to_sort=field_to_sort,
                 column_name=column_name,
                 ordering_text=f"Sort by {column_name}" if first_sort else "Toggle sort",
@@ -267,9 +269,11 @@ class TableSort:
         empty_column_generator = EmptyColumnGenerator()
 
         field_order = [
-            field
-            if field != EMPTY_COLUMN
-            else empty_column_generator.get_next_empty_column_key()
+            (
+                field
+                if field != EMPTY_COLUMN
+                else empty_column_generator.get_next_empty_column_key()
+            )
             for field in field_order
         ]
 
